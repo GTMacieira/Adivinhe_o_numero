@@ -1,24 +1,62 @@
 #importar a biblioteca random
 import random
 
-#gerar um número aleatório ente 1 e 100 e salvar na variável n_sorteado
-drawn_n = random.randrange(1,100)
-print(drawn_n)
+def ch_difficulty(pl_name):
+    # define a dificuldade do jogo
+    print(f'{pl_name}, escolha de acordo com os números a dificuldade do jogo:')
+    difficulty = input('1 - facíl \n2 - médio \n3 - difícil \n4 - insano\n')
+    if difficulty.isnumeric():
+        if 1 >= int(difficulty) or int(difficulty) <= 4:
+            return difficulty
+        else:
+            print(f'Desculpe {pl_name}, mas o valor digitado não esta entre as opções de dificuldade')
+            ch_difficulty(pl_name)
+    else:
+        print(f'Desculpe {pl_name}, mas o valor digitado não é um número')
+        ch_difficulty(pl_name)
 
-difficulty = ""
+
+
+def play (drawn_n, pl_name,opportunity):
+    #print(drawn_n)
+    ch_number = input(f'{pl_name}, ESCOLHA SEU NÚMERO ENTRE 1 e 100\n')
+    if int(ch_number) == drawn_n:
+        print(f'PARABÉNS {pl_name}!!!!\n'
+              f'Você acertou o número sorteado')
+        exit()
+    else:
+        if int(ch_number) > drawn_n:
+            print(f'{pl_name}, seu número é maior que o número sorteado')
+            opportunity -= 1
+            return opportunity
+        else:
+            print(f'{pl_name}, seu número é menor que o número sorteado')
+            opportunity -= 1
+            return opportunity
 
 #solicitar o nome do usuário
 pl_name = input ("Olá, qual seu nome?\n")
-print(f'{pl_name}, ja escolhemos um número para você advinhar de 1,100')
-print(f'{pl_name}, escolha de acordo com os números a dificuldade do jogo:')
 
-while not difficulty.isnumeric():
-    #define a dificuldade do jogo
-    difficulty = input('1 - facíl \n2 - médio \n3 - difícil \n4 - insano\n')
-    #caso usuário não digite um número retorna para a escolha de dificuldade
-    if not difficulty.isnumeric():
-        print(f'{pl_name}, você não digitou um número, por favor digite um número de 1 a 4\n'
-              f'para escolher qual a dificuldade do jogo')
+difficulty = int(ch_difficulty(pl_name))
 
-# if difficulty == '1':
-#     print('vamos lá, você terá 5 chances de acertar o nosso número secreto')
+# gerar um número aleatório ente 1 e 100 e salvar na variável drawn_n
+drawn_n = random.randrange(1, 100)
+
+if difficulty == 1:
+    opportunity = 4
+elif difficulty == 2:
+    opportunity = 3
+elif difficulty == 3:
+    opportunity = 2
+elif difficulty == 4:
+    opportunity = 1
+
+print(f'{pl_name}, Vamos  escolher um número para você que esta entre 1 e 100.\n\n'
+      f'Você terá {opportunity} chances de acertar o nosso número secreto ')
+
+while opportunity > 0:
+    opportunity = play(drawn_n,pl_name,opportunity)
+
+
+print(f'Não foi dessa vez.... o número sorteado era {drawn_n} \n'
+    'Mas vamos tentar de novo!!!')
