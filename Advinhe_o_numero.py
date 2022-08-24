@@ -17,9 +17,10 @@ def ch_difficulty(pl_name):
 
 
 
-def play (drawn_n, pl_name,opportunity):
+def play (drawn_n, pl_name,opportunity,attempts):
     #print(drawn_n)
-    ch_number = input(f'{pl_name}, ESCOLHA SEU NÚMERO ENTRE 1 e 100\n')
+    ch_number = input(f'{pl_name}, ESCOLHA SEU NÚMERO ENTRE 1 e 50\n')
+    attempts.append(ch_number)
     if int(ch_number) == drawn_n:
         print(f'PARABÉNS {pl_name}!!!!\n'
               f'Você acertou o número sorteado')
@@ -27,10 +28,12 @@ def play (drawn_n, pl_name,opportunity):
     else:
         if int(ch_number) > drawn_n:
             print(f'{pl_name}, seu número é maior que o número sorteado')
+            print(f'Suas tentativas foram {attempts}')
             opportunity -= 1
             return opportunity
         else:
             print(f'{pl_name}, seu número é menor que o número sorteado')
+            print(f'Suas tentativas foram {attempts}')
             opportunity -= 1
             return opportunity
 
@@ -39,23 +42,26 @@ pl_name = input ("Olá, qual seu nome?\n")
 
 difficulty = int(ch_difficulty(pl_name))
 
-# gerar um número aleatório ente 1 e 100 e salvar na variável drawn_n
-drawn_n = random.randrange(1, 100)
+# gerar um número aleatório ente 1 e 50 e salvar na variável drawn_n
+drawn_n = random.randrange(1, 50)
 
+#define as chances de acordo com a dificuldade escolhida
 if difficulty == 1:
-    opportunity = 4
+    opportunity = 10
 elif difficulty == 2:
-    opportunity = 3
+    opportunity = 6
 elif difficulty == 3:
-    opportunity = 2
+    opportunity = 4
 elif difficulty == 4:
-    opportunity = 1
+    opportunity = 2
 
 print(f'{pl_name}, Vamos  escolher um número para você que esta entre 1 e 100.\n\n'
       f'Você terá {opportunity} chances de acertar o nosso número secreto ')
 
+#lista para armazenar o chutes do usuário
+attempts = []
 while opportunity > 0:
-    opportunity = play(drawn_n,pl_name,opportunity)
+    opportunity = play(drawn_n,pl_name,opportunity,attempts)
 
 
 print(f'Não foi dessa vez.... o número sorteado era {drawn_n} \n'
